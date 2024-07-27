@@ -16,7 +16,7 @@ const App = () => {
 
   const fetchTransactions = () => {
     axios
-      .get("http://localhost:5000/api/transactions")
+      .get("https://backendtransactions.vercel.app/api/transactions")
       .then((response) => setTransactions(response.data));
   };
 
@@ -29,7 +29,7 @@ const App = () => {
     if (amount !== "") {
       const newTransaction = { description, amount: Number(amount), type };
       axios
-        .post("http://localhost:5000/api/transactions", newTransaction)
+        .post("https://backendtransactions.vercel.app/api/transactions", newTransaction)
         .then((response) => {
           setTransactions([...transactions, response.data]);
           setDescription("");
