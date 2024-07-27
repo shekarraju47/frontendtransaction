@@ -14,10 +14,12 @@ const App = () => {
     fetchTransactions();
   }, []);
 
-  const fetchTransactions = () => {
-    axios
-      .get("https://backendtransactions.vercel.app/api/transactions")
-      .then((response) => setTransactions(response.data));
+  const fetchTransactions = async () => {
+    const data = await fetch(
+      "https://backendtransactions.vercel.app/api/transactions"
+    );
+    const res = await data.json();
+    setTransactions(res);
   };
 
   // Sort transactions by date and time in descending order
@@ -29,7 +31,10 @@ const App = () => {
     if (amount !== "") {
       const newTransaction = { description, amount: Number(amount), type };
       axios
-        .post("https://backendtransactions.vercel.app/api/transactions", newTransaction)
+        .post(
+          "https://backendtransactions.vercel.app/api/transactions",
+          newTransaction
+        )
         .then((response) => {
           setTransactions([...transactions, response.data]);
           setDescription("");
