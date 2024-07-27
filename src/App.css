@@ -1,0 +1,89 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  background-color: #f4f4f4;
+  border: none;
+  box-shadow: 0 5px 6px black;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+input,
+select,
+button {
+  padding: 10px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+.logout-popup .amount {
+  width: 23%;
+}
+
+.green {
+  background-color: #56e464;
+  border-radius: 10px;
+  color: rgb(2, 16, 84);
+  box-shadow: 0 5px 8px black;
+  text-shadow: 0 1px 3px black;
+}
+.red {
+  background-color: rgb(211, 140, 114);
+  border-radius: 10px;
+  text-shadow: 0 1px 3px black;
+  box-shadow: 0 5px 8px black;
+}
+
+.desc {
+  text-shadow: 0 1px 3px black;
+  box-shadow: 0 5px 8px black;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.table {
+  box-shadow: 0 10px 10px black;
+  border-radius: 10px;
+}
+
+.titles {
+  text-shadow: 0 1px 5px black;
+}
+
+td {
+  border: none !important;
+}
+
+th {
+  background-color: lightblue;
+  border-radius: 7px;
+}
+
+.addBtn {
+  background-color: skyblue;
+  border: none;
+  border-radius: 6px;
+  text-shadow: 0 1px 1px black;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 2px 9px 6px black;
+}
