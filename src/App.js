@@ -66,14 +66,16 @@ const App = () => {
     }
   };
 
-  const selectItem = (id) => {
-    setLoading(true);
-    axios
-      .delete("https://backendtransactions.vercel.app/api/transactions/", {
-        params: id,
-      })
-      .then((response) => {})
-      .catch("error");
+  const selectItem = async (id) => {
+    const optons = {
+      method: "delete",
+    };
+    const deleteOf = await fetch(
+      `https://backendtransactions.vercel.app/api/transactions/${id}`,
+      optons
+    );
+
+    console.log(deleteOf);
     setLoading(false);
     fetchTransactions();
   };
