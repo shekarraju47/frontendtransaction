@@ -69,7 +69,7 @@ const App = () => {
   const selectItem = (id) => {
     setLoading(true);
     axios
-      .delete(`http://localhost:5000/api/delete/${id}`)
+      .delete(`https://backendtransactions.vercel.app/api/delete/${id}`)
       .then((response) => {})
       .catch("error");
     setLoading(false);
