@@ -14,7 +14,7 @@ table {
 th,
 td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 5px;
 }
 
 th {
@@ -58,6 +58,9 @@ button {
   box-shadow: 0 5px 8px black;
   font-weight: 600;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .table {
@@ -86,4 +89,43 @@ th {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 2px 9px 6px black;
+  padding: 4px;
 }
+.del-icon {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  width: 20px;
+  border-radius: 50%;
+}
+
+button {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.pop-up-add {
+  background-color: #56e464;
+  border-radius: 4px;
+  font-weight: bold;
+  text-shadow: 0 1px 1px white;
+}
+
+.close-btn {
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 2px black;
+  font-weight: bold;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10%;
+}
+

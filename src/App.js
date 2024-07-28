@@ -3,31 +3,49 @@ import axios from "axios";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./App.css";
+import { TailSpin } from "react-loader-spinner";
 
 const App = () => {
   const [transactions, setTransactions] = useState([]);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("credit");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTransactions();
   }, []);
 
   const fetchTransactions = async () => {
+    setLoading(true);
     const data = await fetch(
       "https://backendtransactions.vercel.app/api/transactions"
     );
     const res = await data.json();
+    setLoading(false);
     setTransactions(res);
   };
 
   // Sort transactions by date and time in descending order
   const sortedTransactions = [...transactions].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
+    (a, b) => new Date(b.date.getDate) - new Date(a.date)
   );
 
+  const date = sortedTransactions.map((item) => {
+    const dateTime = new Date(item.date);
+    const date = dateTime.getDate();
+    const month = dateTime.getMonth();
+    const year = dateTime.getFullYear();
+    const fulldate = date + "/" + month + "/" + year;
+    const fulldateOf = {
+      date: fulldate,
+      item,
+    };
+    return fulldateOf;
+  });
+
   const handleAddTransaction = () => {
+    setLoading(true);
     if (amount !== "") {
       const newTransaction = { description, amount: Number(amount), type };
       axios
@@ -42,42 +60,83 @@ const App = () => {
           setType("credit");
           fetchTransactions();
         });
+      setLoading(false);
     } else {
       alert("enter valid inputs");
     }
   };
 
+  const selectItem = (id) => {
+    setLoading(true);
+    axios
+      .delete(`http://localhost:5000/api/delete/${id}`)
+      .then((response) => {})
+      .catch("error");
+    setLoading(false);
+    fetchTransactions();
+  };
+
   return (
     <div className="container">
       <h1>Transactions</h1>
-      <table className="table">
-        <thead>
-          <tr className="titles">
-            <th>Description</th>
-            <th>Debit</th>
-            <th>Credit</th>
-            <th>Date</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedTransactions.map((transaction) => (
-            <tr key={transaction._id}>
-              <td className="desc">{transaction.description}</td>
-              <td className={transaction.type === "credit" ? null : "red"}>
-                {transaction.type === "debit" && transaction.amount}
-              </td>
-              <td className={transaction.type === "credit" ? "green" : null}>
-                {transaction.type === "credit" && transaction.amount}
-              </td>
-              <td>{new Date(transaction.date).toLocaleString()}</td>
-              <td className={transaction.type === "credit" ? "green" : "red"}>
-                ₹{transaction.balance}
-              </td>
+      {loading ? (
+        <div className="loader" testid="loader">
+          <TailSpin type="TailSpin" color="#D81F26" height={50} width={50} />
+        </div>
+      ) : (
+        <table className="table">
+          <thead>
+            <tr className="titles">
+              <th>Description</th>
+              <th>Debit</th>
+              <th>Credit</th>
+              <th>Date</th>
+              <th>Balance</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {date.map((transaction) => (
+              <tr key={transaction.item._id}>
+                <td className="desc">
+                  {transaction.item.description}
+                  <button
+                    className="del-icon"
+                    onClick={() => selectItem(transaction.item._id)}
+                  >
+                    <img
+                      src="https://www.clipartmax.com/png/small/242-2428212_png-file-delete-icon-png-small.png"
+                      alt=""
+                    />
+                  </button>
+                </td>
+
+                <td
+                  className={transaction.item.type === "credit" ? null : "red"}
+                >
+                  {transaction.item.type === "debit" && transaction.item.amount}
+                </td>
+                <td
+                  className={
+                    transaction.item.type === "credit" ? "green" : null
+                  }
+                >
+                  {transaction.item.type === "credit" &&
+                    transaction.item.amount}
+                </td>
+                <td>{transaction.date}</td>
+                <td
+                  className={
+                    transaction.item.type === "credit" ? "green" : "red"
+                  }
+                >
+                  ₹{transaction.item.balance}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
       <Popup
         className="addBtn"
         modal
@@ -102,8 +161,12 @@ const App = () => {
               <option value="credit">Credit</option>
               <option value="debit">Debit</option>
             </select>
-            <button onClick={handleAddTransaction}>Add</button>
-            <button onClick={close}>x</button>
+            <button className="pop-up-add" onClick={handleAddTransaction}>
+              Add
+            </button>
+            <button className="close-btn" onClick={close}>
+              x
+            </button>
           </div>
         )}
       </Popup>
